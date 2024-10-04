@@ -20,7 +20,7 @@ export HADOOP_STREAMING=$HADOOP_HOME/share/hadoop/tools/lib/hadoop-streaming-3.4
 export HADOOP_LOG_DIR=$HADOOP_HOME/logs
 export PDSH_RCMD_TYPE=ssh
 
-Please download hadoop-3.4.0.tar.gz 
+Please download hadoop-3.4.0.tar.gz from https://hadoop.apache.org/release/3.4.0.html
 
 sudo apt-get install ssh
 tar -zxvf ~/Downloads/hadoop-3.4.0.tar.gz 
