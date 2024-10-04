@@ -1,0 +1,25 @@
+Create a Local folder in Desktop named WordCount. Name can be anything
+Create Input/input.txt and write some word into it. Give some of them multiple times for check after run the program
+Create the Java class file named WordCount.java
+create a folder named classes for storing the manifest file 
+java -version
+ ssh localhost
+ssh-keygen -t rsa -P '' -f ~/.ssh/id_rsa 
+cat ~/.ssh/id_rsa.pub >> ~/.ssh/authorized_keys 
+chmod 0600 ~/.ssh/authorized_keys
+hadoop-3.4.0/bin/hdfs namenode -format
+export PDSH_RCMD_TYPE=ssh
+ start-all.sh
+ run a webpage to any browser adress 'localhost:9870'
+ go to utilities and brose the system of the hadoop webpage
+ export HADOOP_CLASSPATH=$(hadoop classpath)
+echo $HADOOP_CLASSPATH
+hadoop fs -mkdir /WordCount
+hadoop fs -mkdir /WordCount/Input
+hadoop fs -put '/home/user/Desktop/WordCount/input/input.txt' /WordCount/Input
+cd Desktop/Wordcount/
+javac -classpath ${HADOOP_CLASSPATH} -d '/home/user/Desktop/WordCount/classes' '/home/user/Desktop/WordCount/WordCount.java'
+jar -cvf MyJar.jar -C classes/ .
+hadoop jar '/home/user/Desktop/WordCount/MyJar.jar' WordCount /WordCount/Input /WordCount/Output
+hadoop dfs -cat /WordCount/Output/*
+
