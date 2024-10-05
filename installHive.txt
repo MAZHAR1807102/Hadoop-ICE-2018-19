@@ -1,0 +1,156 @@
+Step 1: at first configure localhost
+
+ssh localhost
+ssh-keygen -t rsa -P '' -f ~/.ssh/id_rsa 
+cat ~/.ssh/id_rsa.pub >> ~/.ssh/authorized_keys
+chmod 0600 ~/.ssh/authorized_keys
+hadoop-3.4.0/bin/hdfs namenode -format
+export PDSH_RCMD_TYPE=ssh
+start-all.sh
+
+Step: 2 Check MapReduce with an example
+
+cd hadoop-3.4.0/share/hadoop/mapreduce
+readlink -f hadoop-mapreduce-examples-3.4.0.jar
+yarn jar /home/user/hadoop-3.4.0/share/hadoop/mapreduce/hadoop-mapreduce-examples-3.4.0.jar pi 10 100
+
+Step 3: Download Hive
+
+cd
+wget https://dlcdn.apache.org/hive/hive-3.1.3/apache-hive-3.1.3-bin.tar.gz
+ls
+
+Step 4: Unzip and install Hive
+
+tar -xzf apache-hive-3.1.3-bin.tar.gz
+mv apache-hive-3.1.3-bin hive
+cd hive/conf
+ls
+
+Step 5: configure the hive-site.xml
+
+cp hive-default.xml.template  hive-site.xml
+nano hive-site.xml
+
+Now Copy the following Property and paste it in the hive-site.xml configuration section.
+
+<property>
+<name>system:java.io.tmpdir</name>
+<value>/tmp/hive/java</value>
+</property>
+<property>
+<name>system:user.name</name>
+<value>${user.name}</value>
+</property>
+
+Now press ctrl+W and write "hive.metastore.warehouse.dir". Press enter and copy the location for hive "/user/hive/warehouse". We create the same directory on HDFS later on.
+
+Press ctrl + / and write 3224 and press enter and remove the red colored characters. make a space there.
+save the changes by ctrl + o, then press enter and finally press ctrl + x
+
+step 6: Now save hive-path in .bashrc
+
+cd
+nano .bashrc
+
+paste the following after the hadoop path
+
+export HIVE_HOME=~/hive/
+export HIVE_CONF_DIR=$HIVE_HOME/conf
+export PATH=$PATH:$HIVE_HOME/bin
+export CLASSPATH=$CLASSPATH:$HADOOP_HOME/lib/*:.
+export CLASSPATH=$CLASSPATH:$HIVE_HOME/lib/*:.
+
+to validate the paths, run command 
+
+source .bashrc
+
+Step 7: Hdfs folder creation
+
+hdfs dfs -mkdir -p /user/hive/warehouse
+hdfs dfs -mkdir /tmp
+
+Step 8:  Hdfs folder access permison commands
+
+hdfs dfs -chmod g+w /user
+hdfs dfs -chmod g+wx /user
+hdfs dfs -chmod g+w /tmp
+hdfs dfs -chmod g+wx /tmp
+
+
+Step 9: set up HADOOP_HOME Path to hive
+
+cd hadoop-3.4.0
+pwd
+
+###copy the path
+
+cd 
+
+cd hive/conf
+cp hive-env.sh.template hive-env.sh
+nano hive-env.sh
+
+Search for HADOOP_HOME and uncomment it by clear the # and set hadoop directory path.
+Then save it by ctrl + o then enter then ctrl + x
+
+Step : 10 Removing guava file from hive and upgrade it from hadoop
+
+cd ..
+cd lib
+rm guava-19.0-jre.jar
+cd hadoop-3.4.0/share/hadoop/common/lib
+readlink -f guava-27.0-jre.jar
+
+cd 
+cd hive/lib 
+pwd
+
+cp "guava-27.0-jre.jar path" "hive-lib path"
+
+cd
+cd hive/scripts/metastore/upgrade/derby
+ls
+nano hive-schema-3.1.0.derby.sql
+
+
+comment the first two ddl statement using --
+save the pressing ctrl + o, enter and ctrl + x
+
+cd
+cd hive/bin
+schematool -dbtype derby -initSchema
+
+WOW!!!!!!!!!!!!!!!! You done a great job. Your hive configuration in complete
+
+Step infinity: accessing Hive
+
+hive
+ctrl + c to close it
+
+to get a better visualisation with the hive table
+
+beeline -u jdbc:hive2://
+
+step last: Check databases
+
+show databases;
+create database test;
+create table std (id int, class string);
+insert into table student values (1,"A"),(2,"B"),(3,"C");
+select * from std;
+
+
+-----------------------------------------------DONE---------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+ 
