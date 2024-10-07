@@ -1,0 +1,63 @@
+------------PLEASE MAKE SURE THAT YOUR SSH CONNECTION IS ESTABLISHED------------------
+
+>> ssh localhost
+>> ssh-keygen -t rsa -P '' -f ~/.ssh/id_rsa 
+cat ~/.ssh/id_rsa.pub >> ~/.ssh/authorized_keys
+>> chmod 0600 ~/.ssh/authorized_keys
+>> hadoop-3.4.0/bin/hdfs namenode -format
+>> export PDSH_RCMD_TYPE=ssh
+>> start-all.sh
+
+---------------------ANSWER TO THE QUESTION NO. 1--------------------------------------
+
+Create a folder in home named "WhatUWant"
+
+Now open terminal and go to the created folder
+Create a file named "data and last-3 digit of your roll"
+>> touch data102.txt
+
+Create a HDFS directory named "folder and last-3 digit of your roll"
+>> hdfs dfs -mkdir /folder102
+
+Upload the text file (ex:data102.txt) into the hdfs folder
+>> hdfs dfs -put "location of data102.txt" /folder102 
+(for me location of my file is : '/home/user/Desktop/Exam/data102.txt'
+
+Write the mapreduce program which is provided in WordCount.java file. Be sure to put the java file in the same folder. Also create a folder in the folder "WhatUWant" named "classes" to store the manifest file and map() and reduce() class file.
+
+Create a jar file named as "wordcount and last-3 digit of your roll"
+>> export HADOOP_CLASSPATH=$(hadoop classpath)
+>> echo $HADOOP_CLASSPATH
+>> javac -classpath ${HADOOP_CLASSPATH} -d '/home/user/Desktop/WhatUwant/classes' '/home/user/Desktop/whatUwant/WordCount.java'
+>> jar -cvf wordcount102.jar -C classes/ .   [This is the command for creating jar file]
+
+Now run the program
+>>hadoop jar '/home/user/Desktop/WhatUWant/wordcount102.jar' WordCount /folder102/ /folder102/Output
+
+To see the output
+>> hdfs dfs -cat /WordCount/Output/*
+
+
+------------------------ANSWER TO THE QUESTION NO. 2-----------------------------------
+
+cd
+cd hive/bin
+hdfs dfs -mkdir /folder102
+hdfs dfs -put '/home/user/Desktop/Exam/FILE.csv' /folder102
+
+hdfs dfs -mkdir -p /user/hive/warehouse
+
+hive
+create database if not exists student102 location '/folder102/';
+use student102;
+create external table Info102(Id int, Name string, Age int, Gender string) row format delimited fields terminated by ',' location '/folder102/Info';
+
+create external table Info102(Id int, Name string, Age int) partitioned by(Gender string) row format delimited fields terminated by ',' location '/folder102/Info';
+set hive.exec.dynamic.partition.mode=nonstrict;
+load data inpath '/folder102' overwrite into table info102 partition(Gender);
+hdfs dfs -cat /folder102/Info/gender=F
+
+
+
+
+
