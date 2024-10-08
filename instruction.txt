@@ -42,11 +42,15 @@ To see the output
 
 >> cd
 >> cd hive/bin
+
+Upload the .csv file in HDFS directory which is asked to create named "folder and last 3 digit of your roll"
 >> hdfs dfs -mkdir /folder102
 >> hdfs dfs -put '/home/user/Desktop/Exam/FILE.csv' /folder102
 
+Create Default directory of HIVE(Habse) in HDFS 
 >> hdfs dfs -mkdir -p /user/hive/warehouse
 
+Create database into /folder102 named "student and last 3 digit of your roll"
 >> hive
 >> create database if not exists student102 location '/folder102/';
 >> use student102;
