@@ -40,22 +40,28 @@ To see the output
 
 ------------------------ANSWER TO THE QUESTION NO. 2-----------------------------------
 
-cd
-cd hive/bin
-hdfs dfs -mkdir /folder102
-hdfs dfs -put '/home/user/Desktop/Exam/FILE.csv' /folder102
+>> cd
+>> cd hive/bin
+>> hdfs dfs -mkdir /folder102
+>> hdfs dfs -put '/home/user/Desktop/Exam/FILE.csv' /folder102
 
-hdfs dfs -mkdir -p /user/hive/warehouse
+>> hdfs dfs -mkdir -p /user/hive/warehouse
 
-hive
-create database if not exists student102 location '/folder102/';
-use student102;
-create external table Info102(Id int, Name string, Age int, Gender string) row format delimited fields terminated by ',' location '/folder102/Info';
+>> hive
+>> create database if not exists student102 location '/folder102/';
+>> use student102;
 
-create external table Info102(Id int, Name string, Age int) partitioned by(Gender string) row format delimited fields terminated by ',' location '/folder102/Info';
-set hive.exec.dynamic.partition.mode=nonstrict;
-load data inpath '/folder102' overwrite into table info102 partition(Gender);
-hdfs dfs -cat /folder102/Info/gender=F
+Create Table "Info and last three digit of your roll" partitioned by Gender FOR FORMAT DELIMITED FIELDS TERMINATED BY ',' Location '/folder102/Info'
+>> create external table Info102(Id int, Name string, Age int, Gender string) row format delimited fields terminated by ',' location '/folder102/Info';
+
+Create Table "Info and last three digit of your roll" partitioned by Gender FOR FORMAT DELIMITED FIELDS TERMINATED BY ',' Location '/folder102/Info'
+>> create external table Info102(Id int, Name string, Age int) partitioned by(Gender string) row format delimited fields terminated by ',' location '/folder102/Info';
+>> set hive.exec.dynamic.partition.mode=nonstrict;
+>> load data inpath '/folder102' overwrite into table info102 partition(gender);
+
+Open another terminal and check the files which were partitioned
+>> hdfs dfs -ls /folder/Info
+>> hdfs dfs -cat /folder102/Info/gender=F/000000_0
 
 
 
