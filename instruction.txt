@@ -56,18 +56,29 @@ Create database into /folder102 named "student and last 3 digit of your roll"
 >> use student102;
 
 Create Table "Info and last three digit of your roll" partitioned by Gender FOR FORMAT DELIMITED FIELDS TERMINATED BY ',' Location '/folder102/Info'
->> create external table Info102(Id int, Name string, Age int, Gender string) row format delimited fields terminated by ',' location '/folder102/Info';
-
-Create Table "Info and last three digit of your roll" partitioned by Gender FOR FORMAT DELIMITED FIELDS TERMINATED BY ',' Location '/folder102/Info'
 >> create external table Info102(Id int, Name string, Age int) partitioned by(Gender string) row format delimited fields terminated by ',' location '/folder102/Info';
 >> set hive.exec.dynamic.partition.mode=nonstrict;
 >> load data inpath '/folder102' overwrite into table info102 partition(gender);
 
 Open another terminal and check the files which were partitioned
->> hdfs dfs -ls /folder/Info
+>> hdfs dfs -ls /folder/Info/
 >> hdfs dfs -cat /folder102/Info/gender=F/000000_0
 
 
+Create a Table "temp" to store the data from csv
+>> create external table temp(Id int, Name string, Roll int, Gender string) partitioned by(City string) row format delimited fields terminated by ',' location '/folder102/Adress';
+>> set hive.exec.dynamic.partition.mode=nonstrict;
+>> load data inpath '/folder102/FILE.csv' overwrite into table temp;
+>> select * from temp;
 
+Create Table "Adress and last three digit of your roll" partitioned by City FOR FORMAT DELIMITED FIELDS TERMINATED BY ',' Location '/folder102/Adress'
+>> create external table Adress102(Id int) partitioned by(City string) row format delimited fields terminated by ',' location '/folder102/Adress';
+>> INSERT OVERWRITE TABLE Adress102 PARTITION (City) SELECT ID,City FROM temp;
+
+Open another terminal and check the files which were partitioned
+>> hdfs dfs -ls /folder/Adress/
+>> hdfs dfs -ls /folder102/Adress/
+>> hdfs dfs -ls /folder102/Adress/city=K
+>> hdfs dfs -cat /folder102/Adress/city=K/000000_0
 
 
