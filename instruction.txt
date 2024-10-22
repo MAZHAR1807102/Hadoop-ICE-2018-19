@@ -64,6 +64,7 @@ Open another terminal and check the files which were partitioned
 >> hdfs dfs -ls /folder/Info/
 >> hdfs dfs -cat /folder102/Info/gender=F/000000_0
 
+# Second table
 
 Create a Table "temp" to store the data from csv
 >> create external table temp(Id int, Name string, Roll int, Gender string) partitioned by(City string) row format delimited fields terminated by ',' location '/folder102/Adress';
