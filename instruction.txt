@@ -29,7 +29,7 @@ Create a jar file named as "wordcount and last-3 digit of your roll"
 >> export HADOOP_CLASSPATH=$(hadoop classpath)
 >> echo $HADOOP_CLASSPATH
 >> javac -classpath ${HADOOP_CLASSPATH} -d '/home/user/Desktop/WhatUwant/classes' '/home/user/Desktop/whatUwant/WordCount.java'
->> jar -cvf wordcount102.jar -C classes/ .   [This is the command for creating jar file]
+>> jar -cvf /home/vboxuser/Desktop/Folder/wordcount102.jar -C /home/vboxuser/Desktop/Folder/classes/ .   [This is the command for creating jar file]
 
 Now run the program
 >>hadoop jar '/home/user/Desktop/WhatUWant/wordcount102.jar' WordCount /folder102/ /folder102/Output
