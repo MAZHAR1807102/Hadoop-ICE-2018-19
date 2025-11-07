@@ -5,6 +5,7 @@ cd /usr/lib/jvm
 ls
 
 Step : 2 Add this conf on the .bashrc
+sudo nano .bashrc
 
 export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
 export PATH=$PATH:/usr/lib/jvm/java-8-openjdk-amd64/bin
