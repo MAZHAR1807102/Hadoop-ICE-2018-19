@@ -30,7 +30,7 @@ cd hadoop-3.4.0/etc/hadoop
 step 3: Now Open hadoop-env.h
 
 sudo nano hadoop-env.h
-JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64 (set the path for JAVA_HOME)
+export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64 (set the path for JAVA_HOME)
 
 step 4: Add this file in core-site.xml
 
